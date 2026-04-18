@@ -4,7 +4,12 @@ from math import atan, degrees
 
 @dataclass(frozen=True)
 class LidarParams:
-    """LiDAR derived parameters for pillar detection."""
+    """LiDAR derived parameters for pillar detection.
+
+    Args:
+        angular_resolution_deg: Angular resolution in degrees (> 0).
+        rotation_speed_rpm: Rotation speed in RPM (> 0).
+    """
 
     angular_resolution_deg: float
     rotation_speed_rpm: float
@@ -28,6 +33,11 @@ class LidarParams:
         return 1.0 / self.scan_frequency_hz
 
     def recommend_min_cluster_points(self, pillar_diameter_m: float, distance_m: float) -> int:
+        """Estimate minimum points on one pillar in a single scan.
+
+        The method estimates pillar angular width by `atan(diameter / distance)`
+        and converts it to point count using the configured angular resolution.
+        """
         if pillar_diameter_m <= 0:
             raise ValueError("pillar_diameter_m must be > 0")
         if distance_m <= 0:
