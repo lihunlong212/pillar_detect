@@ -4,7 +4,7 @@ from math import atan, degrees
 
 @dataclass(frozen=True)
 class LidarParams:
-    """LiDAR derived parameters for pillar detection.
+    """LiDAR derived parameters for Pillar detection.
 
     Args:
         angular_resolution_deg: Angular resolution in degrees (> 0).
