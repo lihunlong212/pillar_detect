@@ -35,8 +35,8 @@ class LidarParams:
     def recommend_min_cluster_points(self, pillar_diameter_m: float, distance_m: float) -> int:
         """Estimate minimum points on one pillar in a single scan.
 
-        The method estimates pillar angular width by `atan(diameter / distance)`
-        (exact geometric relation, not a small-angle approximation) and
+        The method estimates pillar angular width by `2 * atan((diameter / 2) / distance)`
+        and
         converts it to point count using the configured angular resolution.
         """
         if pillar_diameter_m <= 0:
@@ -44,6 +44,6 @@ class LidarParams:
         if distance_m <= 0:
             raise ValueError("distance_m must be > 0")
 
-        pillar_angular_width_deg = degrees(atan(pillar_diameter_m / distance_m))
+        pillar_angular_width_deg = degrees(2.0 * atan((pillar_diameter_m / 2.0) / distance_m))
         estimated_hits = pillar_angular_width_deg / self.angular_resolution_deg
         return max(1, int(round(estimated_hits)))
