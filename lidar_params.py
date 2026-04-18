@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from math import degrees
 
 
 @dataclass(frozen=True)
@@ -32,6 +33,6 @@ class LidarParams:
         if distance_m <= 0:
             raise ValueError("distance_m must be > 0")
 
-        pillar_angular_width_deg = (pillar_diameter_m / distance_m) * 57.295779513
+        pillar_angular_width_deg = degrees(pillar_diameter_m / distance_m)
         estimated_hits = pillar_angular_width_deg / self.angular_resolution_deg
         return max(1, int(round(estimated_hits)))
