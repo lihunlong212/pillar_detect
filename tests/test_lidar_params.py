@@ -17,6 +17,9 @@ class LidarParamsTest(unittest.TestCase):
         self.assertEqual(params.recommend_min_cluster_points(0.2, 5.0), 2)
         self.assertEqual(params.recommend_min_cluster_points(0.05, 20.0), 1)
 
+        coarse = LidarParams(angular_resolution_deg=10.0, rotation_speed_rpm=300)
+        self.assertEqual(coarse.recommend_min_cluster_points(0.36397, 1.0), 2)
+
     def test_invalid_input(self):
         with self.assertRaises(ValueError):
             LidarParams(angular_resolution_deg=0, rotation_speed_rpm=300)
