@@ -18,6 +18,7 @@ class LidarParamsTest(unittest.TestCase):
         self.assertEqual(params.recommend_min_cluster_points(0.05, 20.0), 1)
 
         coarse = LidarParams(angular_resolution_deg=10.0, rotation_speed_rpm=300)
+        # tan(20°) ≈ 0.36397 -> expected angular width is ~20° at distance 1 m.
         pillar_diameter_m = 0.36397
         self.assertEqual(coarse.recommend_min_cluster_points(pillar_diameter_m, 1.0), 2)
 

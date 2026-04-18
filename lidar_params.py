@@ -36,7 +36,8 @@ class LidarParams:
         """Estimate minimum points on one pillar in a single scan.
 
         The method estimates pillar angular width by `atan(diameter / distance)`
-        and converts it to point count using the configured angular resolution.
+        (exact geometric relation, not a small-angle approximation) and
+        converts it to point count using the configured angular resolution.
         """
         if pillar_diameter_m <= 0:
             raise ValueError("pillar_diameter_m must be > 0")
