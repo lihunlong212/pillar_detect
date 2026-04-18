@@ -90,13 +90,16 @@ std::vector<Detection> PillarDetectorNode::detectInFrame(
   const int n = static_cast<int>(scan.ranges.size());
   if (n < 8) { return detections; }
 
-  // 右前方象限：索引 25%~50%，角度 -π/2 ~ 0
-  const int seg_start = n / 4;
-  const int seg_end   = n / 2;
+  // 右前方象限：角度 -π/2 ~ 0，根据雷达实际参数计算索引，与总点数无关
+  const double ang_res   = static_cast<double>(scan.angle_increment);
+  const double ang_min_d = static_cast<double>(scan.angle_min);
+  const int seg_start = std::clamp(
+    static_cast<int>((-M_PI / 2.0 - ang_min_d) / ang_res), 0, n);
+  const int seg_end   = std::clamp(
+    static_cast<int>((0.0 - ang_min_d) / ang_res) + 1, 0, n);
 
-  const double ang_res = static_cast<double>(scan.angle_increment);
   auto angle_at = [&](int i) -> double {
-    return static_cast<double>(scan.angle_min) + static_cast<double>(i) * ang_res;
+    return ang_min_d + static_cast<double>(i) * ang_res;
   };
   auto is_valid = [&](int i) -> bool {
     const float r = scan.ranges[i];
